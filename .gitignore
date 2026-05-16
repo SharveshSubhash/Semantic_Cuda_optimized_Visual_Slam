@@ -1,0 +1,112 @@
+# =============================================================================
+# Python
+# =============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+develop-eggs/
+.installed.cfg
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.mypy_cache/
+.ruff_cache/
+.python-version
+
+# Virtual envs
+.venv/
+venv/
+env/
+ENV/
+
+# =============================================================================
+# ROS 2 / colcon
+# =============================================================================
+# Colcon workspaces are usually built one level above this package; the
+# build/install/log dirs are huge and platform-specific. Keep them out.
+build/
+install/
+log/
+.colcon/
+
+# rosdep / ament artefacts
+COLCON_IGNORE
+AMENT_IGNORE
+
+# =============================================================================
+# IDE / editor
+# =============================================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.cproject
+.settings/
+
+# =============================================================================
+# NanoOWL / TensorRT model artefacts
+# =============================================================================
+# Engine files are ~120 MB each, FP16-baked for one specific JetPack /
+# TensorRT version combination, and not portable. They must NEVER be
+# committed - rebuild from scratch on each Jetson via the helper script.
+*.engine
+*.plan
+*.onnx
+*.trt
+
+# HuggingFace download cache (~600 MB for OWL-ViT base) and any local
+# copy of the model in /opt/nanoowl/data/
+data/
+.cache/
+hf_cache/
+
+# Anything under /opt that someone may have symlinked into the repo
+# while debugging - don't accidentally commit kernel modules etc.
+opt/
+
+# =============================================================================
+# Data dumps / rosbags / logs
+# =============================================================================
+# These are big and don't belong in the source repo. If you need to share
+# a rosbag for repro, put it in Git LFS or a release artefact instead.
+*.db3
+*.bag
+*.mcap
+*.yaml.bak
+rosbag2_*/
+imu_rosbag/
+validation_data/
+
+# =============================================================================
+# Generated CSVs and analysis output
+# =============================================================================
+ground_truth.csv
+vslam_estimates.csv
+allan_*.csv
+*.npz
+analysis/output/
+
+# =============================================================================
+# Local secrets / environment overrides
+# =============================================================================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets.yaml
