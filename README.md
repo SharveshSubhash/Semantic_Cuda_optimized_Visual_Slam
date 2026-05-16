@@ -18,10 +18,7 @@ External nodes used (not in this package): `realsense2_camera`, `isaac_ros_visua
 
 ## Why this exists (and what it replaces)
 
-The reference repo (`https://github.com/bandofpv/VSLAM-UAV`) targets the **D435i**,
-which has an onboard IMU. The D415 does **not**. The differences cascade:
-
-| VSLAM-UAV (D435i) | This package (D415) |
+| Generic VSLAM (D435i) | This Unique package (D415) |
 |---|---|
 | `enable_gyro: True, enable_accel: True` | Removed — D415 has no IMU |
 | `unite_imu_method: 2`, `gyro_fps: 200`, `accel_fps: 200` | Removed |
