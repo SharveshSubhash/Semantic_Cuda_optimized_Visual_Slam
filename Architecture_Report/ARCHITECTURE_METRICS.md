@@ -466,10 +466,7 @@ the irreducible minimum vocabulary for autonomous inspection.
 
 ---
 
-## 10. What is NOT claimed
-
-Some things this document explicitly does not assert, because the evidence
-doesn't exist:
+## 10. Limitations and future scope of work
 
 1. **End-to-end inspection accuracy on a real asset.** I have not measured
    this package against a known set of inspection targets in a real
@@ -486,7 +483,7 @@ doesn't exist:
    has been reported anecdotally on NVIDIA's forums; a 4-hour soak test is
    a prerequisite before deployment.
 
-All four would be reasonable next deliverables for this project.
+All four would be reasonable future scope of this project.
 
 ---
 
