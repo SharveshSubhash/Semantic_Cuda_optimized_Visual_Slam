@@ -107,7 +107,7 @@ In QGroundControl set:
 
 | Parameter | Value | Notes |
 |---|---|---|
-| `UXRCE_DDS_CFG` | `TELEM2` | Or whichever UART you wired to the Jetson |
+| `UXRCE_DDS_CFG` | `TELEM2` | Or whichever UART We wired to the Jetson |
 | `SER_TEL2_BAUD` | `921600` | Maximum recommended on TELEM2 |
 | `MAV_1_CONFIG` | `Disabled` | Free TELEM2 from MAVLink |
 | `IMU_INTEG_RATE` | `200` | Match cuVSLAM's `calibration_frequency` |
@@ -123,10 +123,10 @@ MicroXRCEAgent serial --dev /dev/ttyTHS1 -b 921600
 ros2 topic hz /fmu/out/sensor_combined   # expected ~200 Hz
 ```
 
-## tf you must publish
+## tf We must publish
 
 cuVSLAM publishes `odom → base_frame` automatically. You must add the static
-transforms between your robot links, the camera, and (if fusing) the IMU.
+transforms between the robot links, the camera, and (if fusing) the IMU.
 
 ```bash
 # camera_link is the cuVSLAM base_frame in the launch file.
@@ -134,14 +134,14 @@ ros2 run tf2_ros static_transform_publisher \
     --x 0.10 --y 0 --z 0 --yaw 0 --pitch 0 --roll 0 \
     --frame-id base_link --child-frame-id camera_link
 
-# Pixhawk IMU - measure this on your airframe.
+# Pixhawk IMU - measure this on the airframe.
 ros2 run tf2_ros static_transform_publisher \
     --x -0.05 --y 0 --z 0 --yaw 0 --pitch 0 --roll 0 \
     --frame-id base_link --child-frame-id imu_link
 ```
 
 `realsense2_camera` publishes the `camera_link → camera_*_optical_frame` chain
-itself; you do not need to add those.
+itself; We do not need to add those.
 
 ---
 
@@ -151,7 +151,7 @@ This is the complete, in-order install for a fresh JetPack 6.x SD card / SSD.
 Estimated time: **45–90 minutes** end-to-end, of which most is the one-time
 NanoOWL engine build.
 
-## Step 1 — Verify your JetPack and CUDA stack
+## Step 1 — Verify the JetPack and CUDA stack
 
 ```bash
 # Confirm JetPack version (need 5.x or 6.x for cuVSLAM)
@@ -222,7 +222,7 @@ git clone --depth 1 https://github.com/NVIDIA-AI-IOT/torch2trt.git
 git clone --depth 1 https://github.com/PX4/px4_msgs.git
 
 # This package
-git clone <your-fork-or-tarball> vslam_semantic
+git clone <the-fork-or-tarball> vslam_semantic
 # (or just: cp -r /path/to/vslam_semantic $ISAAC_ROS_WS/src/)
 ```
 
@@ -271,7 +271,7 @@ $ISAAC_ROS_WS/src/vslam_semantic/scripts/build_nanoowl_engine.sh
 
 That script does **everything** in Steps 7 + 8 (it installs torch2trt, installs
 nanoowl, downloads the OWL-ViT weights, exports to ONNX, builds the TensorRT
-engine, and runs a smoke-test inference). If you prefer to do it manually:
+engine, and runs a smoke-test inference). If We prefer to do it manually:
 
 ```bash
 # Inside the container
@@ -292,9 +292,9 @@ sudo mkdir -p /opt/nanoowl/data && sudo chmod a+rwx /opt/nanoowl/data
 
 ## Step 8 — Build the NanoOWL TensorRT engine (model weights)
 
-NanoOWL doesn't ship "weights" as files you can wget. Instead the build step
+NanoOWL doesn't ship "weights" as files We can wget. Instead the build step
 downloads the HuggingFace `google/owlvit-base-patch32` checkpoint (~600 MB) on
-first run, exports it to ONNX, and compiles a `.engine` for your Jetson's
+first run, exports it to ONNX, and compiles a `.engine` for the Jetson's
 exact CUDA/TensorRT versions.
 
 **This is a one-time operation**: the resulting engine is portable across
@@ -302,7 +302,7 @@ reboots of the same Jetson but **not** across Jetson SKUs or TensorRT versions
 (rebuild after a JetPack upgrade).
 
 ```bash
-# Inside the container (skip if you ran build_nanoowl_engine.sh above)
+# Inside the container (skip if We ran build_nanoowl_engine.sh above)
 cd /opt/nanoowl
 python3 -m nanoowl.build_image_encoder_engine \
     /opt/nanoowl/data/owl_image_encoder_patch32.engine \
@@ -313,7 +313,7 @@ What happens:
 
 1. `transformers` downloads `google/owlvit-base-patch32` weights from
    HuggingFace into `~/.cache/huggingface/` (~600 MB). You can pre-seed this
-   by `huggingface-cli download google/owlvit-base-patch32` if your Jetson is
+   by `huggingface-cli download google/owlvit-base-patch32` if the Jetson is
    behind a firewall.
 2. The PyTorch model is traced to ONNX.
 3. TensorRT (via `trtexec` or the Python API) builds the engine in FP16. This
@@ -362,7 +362,7 @@ python3 -m nanoowl.build_image_encoder_engine \
 ```
 
 Then pass `nanoowl_engine:=/opt/nanoowl/data/owl_image_encoder_patch16.engine`
-when you launch.
+when We launch.
 
 | Model | Image size | AGX Orin FPS | mAP | Engine size |
 |---|---|---|---|---|
@@ -486,7 +486,7 @@ from vslam_semantic import (
 
 Imports are **lazy**: `import vslam_semantic` does NOT pull in `rclpy`,
 `nanoowl`, `redis`, or `px4_msgs`. Each node main only loads its dependencies
-when called. This lets you:
+when called. This lets We:
 
   * Run unit tests on the math helpers without a ROS environment
   * Run the IMU bridge on a machine that doesn't have NanoOWL installed
@@ -523,7 +523,7 @@ it doesn't provide:
    text encodings and only re-runs them when the prompt actually changes,
    instead of paying ~500 ms per frame.
 
-If you'd rather use NVIDIA's node, you can — just point the combiner at
+If We'd rather use NVIDIA's node, We can — just point the combiner at
 `/output_detections` instead of `/nanoowl/detections`, and add a small
 relay/remapper to convert the integer class_id to a label string.
 
