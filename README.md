@@ -1,5 +1,8 @@
 # vslam_semantic — cuVSLAM + NanoOWL + Pixhawk + Redis on a Jetson with a D415
 
+This package is specifically built for Pixhawk based UAV Perception Layer Pipeline with a VLM enriched semantic tagging to the Visual Inertial Odometry based Simultaneous Localization and Mapping Layer output for the Intelligent Robotics Systems Project at National University of Singapore by Sharvesh Subhash
+
+
 End-to-end ROS 2 package: stereo VIO from a RealSense **D415**, open-vocabulary
 detection from **NanoOWL**, optional IMU fusion from a **Pixhawk** flight
 controller via uXRCE-DDS, and a Redis-backed JSON semantic graph for the global
